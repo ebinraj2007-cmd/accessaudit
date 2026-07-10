@@ -18,12 +18,52 @@
       <p class="tagline">Orphaned Access &amp; Offboarding Console</p>
     </div>
   </div>
-  <div class="topbar-actions">
-    <button id="checkBtn" class="btn btn-primary">Run Check</button>
+  <div class="topbar-actions" id="mainActions" style="display:none;">
+    <button id="checkBtn" class="btn btn-primary">Re-run Check</button>
     <button id="logBtn" class="btn btn-ghost">Audit Trail</button>
-    <button id="clearBtn" class="btn btn-ghost">Clear</button>
+    <button id="clearBtn" class="btn btn-ghost">Start Over</button>
   </div>
 </header>
+
+<!-- SETUP WIZARD -->
+<section class="wizard" id="wizard">
+  <div class="wizard-card">
+    <h2>Connect your company data</h2>
+    <p class="wizard-sub">
+      Drop in exports from your HR system and access/subscription logs — AccessAudit
+      auto-detects the columns, whatever your export calls them. CSV, Excel, or JSON.
+    </p>
+
+    <div class="drop-grid">
+      <div class="dropzone" id="dropEmployees" data-kind="employees">
+        <div class="dropzone-icon">👥</div>
+        <p class="dropzone-title">Employee Roster</p>
+        <p class="dropzone-sub">Name, email, department, status</p>
+        <p class="dropzone-status" id="statusEmployees">Drop file or click to browse</p>
+        <input type="file" id="fileEmployees" accept=".csv,.xlsx,.json" hidden>
+      </div>
+
+      <div class="dropzone" id="dropAccess" data-kind="access">
+        <div class="dropzone-icon">🔑</div>
+        <p class="dropzone-title">Access / Subscription Log</p>
+        <p class="dropzone-sub">User email, system, access level</p>
+        <p class="dropzone-status" id="statusAccess">Drop file or click to browse</p>
+        <input type="file" id="fileAccess" accept=".csv,.xlsx,.json" hidden>
+      </div>
+    </div>
+
+    <p class="wizard-error" id="wizardError"></p>
+
+    <div class="wizard-divider"><span>or</span></div>
+
+    <button id="sampleDataBtn" class="btn btn-outline" style="width:100%;">
+      Try it now with sample company data
+    </button>
+  </div>
+</section>
+
+<!-- MAIN DASHBOARD (hidden until data is loaded) -->
+<div id="mainView" style="display:none;">
 
 <section class="stats-strip" id="statsStrip">
   <div class="stat-pill" data-cat="open">
@@ -49,11 +89,13 @@
 </section>
 
 <main class="queue" id="queue">
-  <div class="empty-state" id="emptyState">
-    <p>No audit run yet.</p>
-    <p class="empty-sub">Click <strong>Run Check</strong> to scan company assets against the HR roster.</p>
+  <div class="empty-state" id="emptyState" style="display:none;">
+    <p>No open findings.</p>
+    <p class="empty-sub">Everything's accounted for.</p>
   </div>
 </main>
+
+</div>
 
 <div class="drawer" id="logDrawer">
   <div class="drawer-header">

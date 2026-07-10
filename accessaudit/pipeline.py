@@ -13,7 +13,12 @@ def run_check(employees_path: str | Path, access_path: str | Path,
               db_path: Path | None = None) -> list[dict]:
     employees = ingest.load_employees(employees_path)
     access_records = ingest.load_access_records(access_path)
+    return run_check_with_data(employees, access_records, db_path)
 
+
+def run_check_with_data(employees, access_records, db_path: Path | None = None) -> list[dict]:
+    """Same as run_check, but takes already-loaded Employee/AccessRecord lists —
+    used by the upload flow, where data comes from a parsed file rather than a path."""
     findings = run_audit(employees, access_records)
 
     conn = storage.get_connection(db_path)

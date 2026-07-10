@@ -1,3 +1,9 @@
+const wizard = document.getElementById("wizard");
+const mainView = document.getElementById("mainView");
+const mainActions = document.getElementById("mainActions");
+const wizardError = document.getElementById("wizardError");
+const sampleDataBtn = document.getElementById("sampleDataBtn");
+
 const queue = document.getElementById("queue");
 const emptyState = document.getElementById("emptyState");
 const checkBtn = document.getElementById("checkBtn");
@@ -19,6 +25,90 @@ function escapeHtml(str) {
   div.textContent = str ?? "";
   return div.innerHTML;
 }
+
+function showDashboard() {
+  wizard.style.display = "none";
+  mainView.style.display = "block";
+  mainActions.style.display = "flex";
+  refreshAll();
+}
+
+function showWizard() {
+  wizard.style.display = "flex";
+  mainView.style.display = "none";
+  mainActions.style.display = "none";
+}
+
+// ---------- Wizard: drag & drop upload ----------
+
+function setupDropzone(zoneId, fileInputId, kind) {
+  const zone = document.getElementById(zoneId);
+  const input = document.getElementById(fileInputId);
+  const statusEl = zone.querySelector(".dropzone-status");
+
+  zone.addEventListener("click", () => input.click());
+
+  zone.addEventListener("dragover", (e) => { e.preventDefault(); zone.classList.add("drag-over"); });
+  zone.addEventListener("dragleave", () => zone.classList.remove("drag-over"));
+  zone.addEventListener("drop", (e) => {
+    e.preventDefault();
+    zone.classList.remove("drag-over");
+    if (e.dataTransfer.files.length) uploadFile(kind, e.dataTransfer.files[0], zone, statusEl);
+  });
+
+  input.addEventListener("change", () => {
+    if (input.files.length) uploadFile(kind, input.files[0], zone, statusEl);
+  });
+}
+
+async function uploadFile(kind, file, zone, statusEl) {
+  zone.classList.remove("is-done", "is-error");
+  statusEl.textContent = `Uploading ${file.name}…`;
+  wizardError.textContent = "";
+
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const res = await fetch(`/api/upload/${kind}`, { method: "POST", body: formData });
+    const data = await res.json();
+
+    if (!res.ok || data.error) {
+      zone.classList.add("is-error");
+      statusEl.textContent = "Upload failed";
+      wizardError.textContent = data.error || "Something went wrong reading that file.";
+      return;
+    }
+
+    zone.classList.add("is-done");
+    statusEl.textContent = `✓ ${file.name} (${data.row_count} rows)`;
+
+    if (data.ready_to_check) {
+      showDashboard();
+    }
+  } catch (err) {
+    zone.classList.add("is-error");
+    statusEl.textContent = "Upload failed";
+    wizardError.textContent = "Network error while uploading. Is the server running?";
+  }
+}
+
+setupDropzone("dropEmployees", "fileEmployees", "employees");
+setupDropzone("dropAccess", "fileAccess", "access");
+
+sampleDataBtn.addEventListener("click", async () => {
+  sampleDataBtn.disabled = true;
+  sampleDataBtn.textContent = "Loading sample data…";
+  try {
+    await fetch("/api/use-sample-data", { method: "POST" });
+    showDashboard();
+  } finally {
+    sampleDataBtn.disabled = false;
+    sampleDataBtn.textContent = "Try it now with sample company data";
+  }
+});
+
+// ---------- Dashboard ----------
 
 function renderFindingCard(row, index) {
   const s = row.severity;
@@ -78,12 +168,12 @@ async function loadFindings() {
 
   queue.querySelectorAll(".finding-card").forEach((el) => el.remove());
 
+  const openRows = rows.filter(r => r.status === "open");
+  emptyState.style.display = (rows.length === 0 || openRows.length === 0) ? "block" : "none";
   if (rows.length === 0) {
-    emptyState.style.display = "block";
-  } else {
-    emptyState.style.display = "none";
-    rows.forEach((row, i) => queue.appendChild(renderFindingCard(row, i)));
+    emptyState.querySelector("p").textContent = "No open findings.";
   }
+  rows.forEach((row, i) => queue.appendChild(renderFindingCard(row, i)));
 }
 
 async function loadStats() {
@@ -120,17 +210,20 @@ checkBtn.addEventListener("click", async () => {
   checkBtn.disabled = true;
   checkBtn.textContent = "Checking…";
   try {
-    await fetch("/api/check", { method: "POST" });
+    await fetch("/api/use-sample-data", { method: "POST" });
     await refreshAll();
   } finally {
     checkBtn.disabled = false;
-    checkBtn.textContent = "Run Check";
+    checkBtn.textContent = "Re-run Check";
   }
 });
 
 clearBtn.addEventListener("click", async () => {
   await fetch("/api/clear", { method: "POST" });
-  await refreshAll();
+  showWizard();
+  document.querySelectorAll(".dropzone").forEach(z => z.classList.remove("is-done", "is-error"));
+  document.getElementById("statusEmployees").textContent = "Drop file or click to browse";
+  document.getElementById("statusAccess").textContent = "Drop file or click to browse";
 });
 
 logBtn.addEventListener("click", async () => {
@@ -146,4 +239,13 @@ function closeLogDrawer() {
 closeLog.addEventListener("click", closeLogDrawer);
 drawerBackdrop.addEventListener("click", closeLogDrawer);
 
-refreshAll();
+// ---------- Initial load: check whether data already exists ----------
+(async function init() {
+  const res = await fetch("/api/setup-status");
+  const status = await res.json();
+  if (status.has_data) {
+    showDashboard();
+  } else {
+    showWizard();
+  }
+})();

@@ -212,6 +212,89 @@ body {
 }
 .drawer-backdrop.open { opacity: 1; pointer-events: auto; }
 
+/* ---------- Setup Wizard ---------- */
+.wizard {
+  display: flex;
+  justify-content: center;
+  padding: 60px 24px;
+}
+
+.wizard-card {
+  max-width: 720px;
+  width: 100%;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 40px;
+}
+
+.wizard-card h2 {
+  font-family: var(--font-display);
+  font-size: 22px;
+  margin: 0 0 8px;
+}
+
+.wizard-sub {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0 0 28px;
+}
+
+.drop-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dropzone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 28px 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+.dropzone:hover { border-color: var(--accent); background: var(--panel-raised); }
+.dropzone.drag-over { border-color: var(--accent); background: rgba(242, 183, 5, 0.08); }
+.dropzone.is-done { border-color: #5EEAD4; border-style: solid; }
+.dropzone.is-error { border-color: var(--critical); border-style: solid; }
+
+.dropzone-icon { font-size: 28px; margin-bottom: 8px; }
+.dropzone-title { font-weight: 600; font-size: 14px; margin: 0 0 4px; }
+.dropzone-sub { font-size: 12px; color: var(--text-faint); margin: 0 0 10px; }
+.dropzone-status { font-size: 12px; color: var(--text-muted); font-family: var(--font-mono); margin: 0; }
+
+.wizard-error {
+  color: var(--critical);
+  font-size: 13px;
+  font-family: var(--font-mono);
+  margin: 16px 0 0;
+  min-height: 0;
+}
+
+.wizard-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 28px 0 20px;
+  color: var(--text-faint);
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.wizard-divider::before, .wizard-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+@media (max-width: 640px) {
+  .drop-grid { grid-template-columns: 1fr; }
+  .wizard-card { padding: 28px 20px; }
+}
+
 /* ---------- Footer ---------- */
 .footer {
   text-align: center;

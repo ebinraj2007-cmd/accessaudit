@@ -10,12 +10,12 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile, File
 from fastapi.responses import JSONResponse, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 
-from accessaudit import storage
-from accessaudit.pipeline import run_check
+from accessaudit import storage, importer
+from accessaudit.pipeline import run_check, run_check_with_data
 from accessaudit.remediation import LocalConnector
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -26,6 +26,13 @@ INDEX_HTML = (BASE_DIR / "templates" / "index.html").read_text()
 
 connector = LocalConnector()
 
+# Simple in-memory staging area: a real IAM/HR export usually arrives as two
+# separate files (employee roster, access log). We hold whichever one arrived
+# first until its pair shows up, then run the check. This is a local single-user
+# tool (no auth, no multi-tenant concerns), so process memory is a reasonable
+# place for this — no database migration needed for a two-step wizard.
+_staged: dict[str, list] = {"employees": None, "access": None}
+
 app = FastAPI(title="AccessAudit", description="Orphaned access & offboarding auditor")
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
@@ -33,6 +40,65 @@ app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 @app.get("/", response_class=HTMLResponse)
 def dashboard():
     return INDEX_HTML
+
+
+@app.get("/api/setup-status")
+def api_setup_status():
+    conn = storage.get_connection()
+    has_findings = len(storage.get_all_findings(conn)) > 0
+    conn.close()
+    return JSONResponse({
+        "has_data": has_findings,
+        "employees_staged": _staged["employees"] is not None,
+        "access_staged": _staged["access"] is not None,
+    })
+
+
+@app.post("/api/upload/preview")
+async def api_upload_preview(kind: str, file: UploadFile = File(...)):
+    content = await file.read()
+    try:
+        preview = importer.preview_mapping(file.filename, content, kind)
+        return JSONResponse(preview)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+
+
+@app.post("/api/upload/{kind}")
+async def api_upload(kind: str, file: UploadFile = File(...)):
+    if kind not in ("employees", "access"):
+        return JSONResponse({"error": "kind must be 'employees' or 'access'"}, status_code=400)
+
+    content = await file.read()
+    try:
+        if kind == "employees":
+            _staged["employees"] = importer.import_employees(file.filename, content)
+        else:
+            _staged["access"] = importer.import_access_records(file.filename, content)
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=400)
+
+    ready = _staged["employees"] is not None and _staged["access"] is not None
+    result = {
+        "uploaded": kind,
+        "row_count": len(_staged[kind]),
+        "employees_staged": _staged["employees"] is not None,
+        "access_staged": _staged["access"] is not None,
+        "ready_to_check": ready,
+    }
+
+    if ready:
+        findings = run_check_with_data(_staged["employees"], _staged["access"])
+        result["checked"] = True
+        result["findings_count"] = len(findings)
+
+    return JSONResponse(result)
+
+
+@app.post("/api/use-sample-data")
+def api_use_sample_data():
+    findings = run_check(SAMPLE_EMPLOYEES, SAMPLE_ACCESS)
+    return JSONResponse({"checked": True, "findings_count": len(findings)})
 
 
 @app.get("/api/findings")
@@ -57,12 +123,6 @@ def api_action_log():
     rows = storage.get_action_log(conn)
     conn.close()
     return JSONResponse([dict(row) for row in rows])
-
-
-@app.post("/api/check")
-def api_check():
-    findings = run_check(SAMPLE_EMPLOYEES, SAMPLE_ACCESS)
-    return JSONResponse({"checked": True, "findings_count": len(findings)})
 
 
 @app.post("/api/findings/{finding_id}/revoke")
@@ -108,4 +168,6 @@ def api_clear():
     conn = storage.get_connection()
     storage.clear_all(conn)
     conn.close()
+    _staged["employees"] = None
+    _staged["access"] = None
     return JSONResponse({"cleared": True})

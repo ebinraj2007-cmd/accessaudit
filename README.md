@@ -19,22 +19,35 @@ Offboarding checklists get followed for the obvious stuff (laptop, badge) and qu
 1. **Rule engine (always on)** — deterministic comparison of HR status vs. access records. This is what actually finds the issues; it's a matching problem, not a guessing problem, so it doesn't need an LLM to be accurate.
 2. **LLM engine (optional)** — set `ANTHROPIC_API_KEY` and each finding's explanation gets sharpened by Claude into a clearer, more specific sentence. It only ever rewrites the *explanation* — the underlying severity and decision always come from the deterministic rule engine, so a security finding never depends on an API call succeeding.
 
-## Quick start
+## Quick start — genuinely just download and run
 
 ```bash
 git clone https://github.com/ebinraj2007-cmd/accessaudit.git
 cd accessaudit
-pip install -r requirements.txt
-
-# CLI — run a check right now
-python -m accessaudit.cli check
-
-# Web dashboard
-uvicorn webapp.main:app --reload
-# then open http://127.0.0.1:8000, click "Run Check"
+./start.sh      # Windows: double-click start.bat
 ```
 
-The CLI is interactive by default — for each finding it asks `[r]evoke  [p]assword reset  [s]kip`. Use `--no-prompt` for a read-only listing, or `--auto-remediate` to automatically revoke access for every orphaned-access finding.
+That's it. First run installs dependencies automatically (a few seconds), then opens `http://127.0.0.1:8000` in your browser straight into the setup wizard.
+
+**In the wizard:**
+- Drag in your HR export and your access/subscription log (CSV, Excel, or JSON — whatever your systems export)
+- AccessAudit auto-detects the columns, however your export names them ("Work Email", "Employee Email", "User Email" all map correctly on their own)
+- The moment both files are in, it runs the check automatically and shows you the findings
+- No real data handy? Click **"Try it now with sample company data"** to see it working immediately
+
+Every finding is one click away from being fixed — **Revoke Access**, **Reset Password**, or **Dismiss** — and every action is written to a real, timestamped audit trail you can review any time.
+
+### If you'd rather not use the launcher
+
+```bash
+pip install -r requirements.txt
+uvicorn webapp.main:app --reload
+```
+
+Or use the CLI directly:
+```bash
+python -m accessaudit.cli check
+```
 
 ## What "Revoke" and "Reset Password" actually do
 
@@ -66,31 +79,30 @@ sample_data/access_records.json ┘   (rules or Claude)      │
 ```
 
 - `accessaudit/auditor.py` — the hybrid detection engine
+- `accessaudit/importer.py` — turns arbitrary CSV/Excel/JSON company exports into clean records via fuzzy column auto-detection
 - `accessaudit/remediation.py` — pluggable action connector (revoke / reset)
 - `accessaudit/storage.py` — SQLite persistence: findings + a real action audit trail
 - `accessaudit/pipeline.py` — orchestrates ingest → audit → store
 - `accessaudit/cli.py` — interactive command-line interface
-- `webapp/` — FastAPI backend + vanilla JS/CSS dashboard with live Revoke/Reset/Dismiss actions and an audit trail drawer
+- `webapp/` — FastAPI backend + vanilla JS/CSS dashboard: setup wizard, live Revoke/Reset/Dismiss actions, audit trail drawer
+- `start.sh` / `start.bat` — one-command launcher (creates a venv, installs dependencies, opens the browser)
 
 ## Using your own company data
 
-Export your HR system and access/IAM logs into this shape:
+**Easiest path:** just drop your exports into the setup wizard (see Quick Start above) — no formatting required. It auto-detects columns from almost any reasonable export, handles CSV/Excel/JSON, and normalizes inconsistent date formats (`04/15/2026`, `15-Apr-2026`, `2026-04-15` all work).
 
-**employees.json**
-```json
-{ "id": "u001", "name": "...", "email": "...", "department": "...", "role": "...",
-  "status": "active | terminated", "termination_date": "YYYY-MM-DD or null" }
-```
+Minimum columns it needs to find (under whatever name your export uses):
+- **Employee roster:** name, email, status (active/terminated)
+- **Access log:** user email, system name
 
-**access_records.json**
-```json
-{ "id": "a001", "user_email": "...", "system": "...", "access_level": "admin | standard | read-only",
-  "granted_date": "YYYY-MM-DD", "last_used_date": "YYYY-MM-DD or null" }
-```
+Everything else (department, role, access level, dates) improves accuracy but isn't required.
 
+**CLI path**, if you'd rather work from files directly — same auto-detection applies:
 ```bash
-python -m accessaudit.cli check --employees path/to/employees.json --access path/to/access.json
+python -m accessaudit.cli check --employees path/to/your_export.csv --access path/to/access_log.xlsx
 ```
+
+The CLI is interactive by default — for each finding it asks `[r]evoke  [p]assword reset  [s]kip`. Use `--no-prompt` for a read-only listing, or `--auto-remediate` to automatically revoke access for every orphaned-access finding.
 
 ## Running tests
 
@@ -98,7 +110,7 @@ python -m accessaudit.cli check --employees path/to/employees.json --access path
 pytest tests/ -v
 ```
 
-19 tests, covering the detection rules, severity scoring, the LLM fallback path (mocked, no real API key needed), and the remediation/audit-trail logic.
+36 tests, covering the detection rules, severity scoring, the LLM fallback path (mocked, no real API key needed), the CSV/Excel/JSON importer with realistic messy real-world exports, and the full upload-wizard + remediation/audit-trail flow via FastAPI's test client.
 
 ## Tech stack
 

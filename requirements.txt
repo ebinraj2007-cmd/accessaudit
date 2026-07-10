@@ -2,3 +2,6 @@ fastapi>=0.110
 uvicorn>=0.29
 anthropic>=0.40
 pytest>=8.0
+openpyxl>=3.1
+python-multipart>=0.0.9
+python-dateutil>=2.9
