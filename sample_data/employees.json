@@ -1,0 +1,12 @@
+[
+  {"id": "u001", "name": "Fatima Al-Sayed", "email": "fatima.alsayed@company.com", "department": "Finance", "role": "Financial Analyst", "status": "terminated", "termination_date": "2026-04-15"},
+  {"id": "u002", "name": "David Kim", "email": "david.kim@company.com", "department": "Engineering", "role": "Backend Engineer", "status": "active", "termination_date": null},
+  {"id": "u003", "name": "Aisha Rahman", "email": "aisha.rahman@company.com", "department": "Marketing", "role": "Content Manager", "status": "terminated", "termination_date": "2026-06-01"},
+  {"id": "u004", "name": "Carlos Mendes", "email": "carlos.mendes@company.com", "department": "IT", "role": "Systems Administrator", "status": "active", "termination_date": null},
+  {"id": "u005", "name": "Priya Nair", "email": "priya.nair@company.com", "department": "Sales", "role": "Account Executive", "status": "active", "termination_date": null},
+  {"id": "u006", "name": "Omar Haddad", "email": "omar.haddad@company.com", "department": "Finance", "role": "Accounts Payable Clerk", "status": "active", "termination_date": null},
+  {"id": "u007", "name": "Grace Wong", "email": "grace.wong@company.com", "department": "HR", "role": "Recruiter", "status": "terminated", "termination_date": "2026-05-20"},
+  {"id": "u008", "name": "Liam O'Connor", "email": "liam.oconnor@company.com", "department": "Engineering", "role": "DevOps Engineer", "status": "active", "termination_date": null},
+  {"id": "u009", "name": "Nadia Petrova", "email": "nadia.petrova@company.com", "department": "Marketing", "role": "Social Media Coordinator", "status": "active", "termination_date": null},
+  {"id": "u010", "name": "Ravi Chandran", "email": "ravi.chandran@company.com", "department": "Sales", "role": "Sales Director", "status": "active", "termination_date": null}
+]

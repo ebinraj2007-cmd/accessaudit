@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AccessAudit — Orphaned Access Console</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">⛊</span>
+    <div>
+      <h1>AccessAudit</h1>
+      <p class="tagline">Orphaned Access &amp; Offboarding Console</p>
+    </div>
+  </div>
+  <div class="topbar-actions">
+    <button id="checkBtn" class="btn btn-primary">Run Check</button>
+    <button id="logBtn" class="btn btn-ghost">Audit Trail</button>
+    <button id="clearBtn" class="btn btn-ghost">Clear</button>
+  </div>
+</header>
+
+<section class="stats-strip" id="statsStrip">
+  <div class="stat-pill" data-cat="open">
+    <span class="stat-count" id="statOpen">0</span>
+    <span class="stat-label">Open Findings</span>
+  </div>
+  <div class="stat-pill" data-cat="critical">
+    <span class="stat-count" id="statCritical">0</span>
+    <span class="stat-label">Critical / High</span>
+  </div>
+  <div class="stat-pill" data-cat="orphaned_access">
+    <span class="stat-count" id="statOrphaned">0</span>
+    <span class="stat-label">Orphaned Access</span>
+  </div>
+  <div class="stat-pill" data-cat="excessive_privilege">
+    <span class="stat-count" id="statExcessive">0</span>
+    <span class="stat-label">Excessive Privilege</span>
+  </div>
+  <div class="stat-pill" data-cat="dormant_access">
+    <span class="stat-count" id="statDormant">0</span>
+    <span class="stat-label">Dormant Access</span>
+  </div>
+</section>
+
+<main class="queue" id="queue">
+  <div class="empty-state" id="emptyState">
+    <p>No audit run yet.</p>
+    <p class="empty-sub">Click <strong>Run Check</strong> to scan company assets against the HR roster.</p>
+  </div>
+</main>
+
+<div class="drawer" id="logDrawer">
+  <div class="drawer-header">
+    <h2>Audit Trail</h2>
+    <button id="closeLog" class="btn btn-ghost btn-small">Close</button>
+  </div>
+  <div class="drawer-body" id="logBody"></div>
+</div>
+<div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+<footer class="footer">
+  <span>AccessAudit v1.0 — hybrid rule engine + optional Claude API reasoning · actions logged to a local audit trail</span>
+</footer>
+
+<script src="/static/app.js"></script>
+</body>
+</html>

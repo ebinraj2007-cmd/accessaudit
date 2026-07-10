@@ -1,0 +1,25 @@
+[
+  {"id": "a001", "user_email": "fatima.alsayed@company.com", "system": "Payroll System", "access_level": "admin", "granted_date": "2024-02-10", "last_used_date": "2026-04-14"},
+  {"id": "a002", "user_email": "fatima.alsayed@company.com", "system": "Email", "access_level": "standard", "granted_date": "2024-02-10", "last_used_date": "2026-04-15"},
+
+  {"id": "a003", "user_email": "aisha.rahman@company.com", "system": "Marketing CMS", "access_level": "standard", "granted_date": "2023-08-01", "last_used_date": "2026-05-30"},
+
+  {"id": "a004", "user_email": "grace.wong@company.com", "system": "HR System", "access_level": "admin", "granted_date": "2022-11-05", "last_used_date": "2026-05-19"},
+  {"id": "a005", "user_email": "grace.wong@company.com", "system": "VPN", "access_level": "standard", "granted_date": "2022-11-05", "last_used_date": "2026-05-18"},
+
+  {"id": "a006", "user_email": "david.kim@company.com", "system": "AWS Console", "access_level": "admin", "granted_date": "2023-01-15", "last_used_date": "2026-07-08"},
+  {"id": "a007", "user_email": "david.kim@company.com", "system": "Legacy Reporting Tool", "access_level": "standard", "granted_date": "2023-03-01", "last_used_date": "2025-02-01"},
+
+  {"id": "a008", "user_email": "carlos.mendes@company.com", "system": "Admin Panel", "access_level": "admin", "granted_date": "2022-06-01", "last_used_date": "2026-07-09"},
+
+  {"id": "a009", "user_email": "priya.nair@company.com", "system": "CRM", "access_level": "standard", "granted_date": "2024-05-01", "last_used_date": "2026-07-07"},
+  {"id": "a010", "user_email": "priya.nair@company.com", "system": "Production Database", "access_level": "admin", "granted_date": "2024-09-12", "last_used_date": "2026-06-01"},
+
+  {"id": "a011", "user_email": "omar.haddad@company.com", "system": "Payroll System", "access_level": "standard", "granted_date": "2025-01-10", "last_used_date": null},
+
+  {"id": "a012", "user_email": "liam.oconnor@company.com", "system": "AWS Console", "access_level": "admin", "granted_date": "2023-07-01", "last_used_date": "2026-07-09"},
+
+  {"id": "a013", "user_email": "nadia.petrova@company.com", "system": "Marketing CMS", "access_level": "standard", "granted_date": "2024-11-01", "last_used_date": "2026-07-06"},
+
+  {"id": "a014", "user_email": "ravi.chandran@company.com", "system": "AWS Console", "access_level": "admin", "granted_date": "2024-01-20", "last_used_date": "2026-06-15"}
+]
