@@ -27,7 +27,7 @@ cd accessaudit
 ./start.sh      # Windows: double-click start.bat
 ```
 
-That's it. First run installs dependencies automatically (a few seconds), then opens `http://127.0.0.1:8000` in your browser straight into the setup wizard.
+That's it. First run installs dependencies automatically (a few seconds), then opens `http://127.0.0.1:8010` in your browser straight into the setup wizard.
 
 **In the wizard:**
 - Drag in your HR export and your access/subscription log (CSV, Excel, or JSON — whatever your systems export)
