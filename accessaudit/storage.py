@@ -34,6 +34,14 @@ CREATE TABLE IF NOT EXISTS action_log (
     note TEXT,
     performed_at TEXT DEFAULT CURRENT_TIMESTAMP
 );
+
+-- Indexes on the columns the dashboard filters/sorts by (checklist #7).
+-- Targeted only: findings list orders by (severity, detected_at) and filters
+-- by status; the action log orders by performed_at and joins on finding_id.
+CREATE INDEX IF NOT EXISTS idx_findings_status ON findings(status);
+CREATE INDEX IF NOT EXISTS idx_findings_sort ON findings(severity DESC, detected_at DESC);
+CREATE INDEX IF NOT EXISTS idx_actionlog_time ON action_log(performed_at DESC);
+CREATE INDEX IF NOT EXISTS idx_actionlog_finding ON action_log(finding_id);
 """
 
 

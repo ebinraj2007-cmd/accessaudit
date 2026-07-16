@@ -13,6 +13,12 @@ def client(tmp_path, monkeypatch):
     """Fresh app instance per test, pointed at a temp DB so tests don't
     interfere with each other or with real usage data."""
     monkeypatch.setattr("accessaudit.storage.DB_PATH", tmp_path / "test.db")
+    # Keep rate limits out of the way of functional tests; the limiter has its
+    # own dedicated test. Reset counters per test.
+    monkeypatch.setenv("ACCESSAUDIT_RATE", "100000")
+    monkeypatch.setenv("ACCESSAUDIT_RATE_STRICT", "100000")
+    from webapp import security
+    security.reset_rate_limits()
     from webapp import main as webapp_main
     webapp_main._staged["employees"] = None
     webapp_main._staged["access"] = None
