@@ -1,20 +1,27 @@
+/* AccessAudit — neo-brutalist security console.
+   Four-colour system: concrete #E9E6DF · ink #0C0D12 · electric #2F6BFF · coral #FF5C4D */
 :root {
-  --bg: #0B0E12;
-  --panel: #12161C;
-  --panel-raised: #181D25;
-  --border: #232933;
-  --text: #ECEEF1;
-  --text-muted: #8A93A1;
-  --text-faint: #545C68;
+  --bg: #E9E6DF;
+  --panel: #FFFFFF;
+  --panel-raised: #F4F2EC;
+  --border: #0C0D12;
+  --text: #0C0D12;
+  --text-muted: #55596A;
+  --text-faint: #8A8FA0;
 
-  --critical: #FF4757;
-  --high: #FF9F43;
-  --medium: #F2B705;
-  --low: #64748B;
-  --minimal: #3D434F;
+  --critical: #FF5C4D;
+  --high: #FF5C4D;
+  --medium: #2F6BFF;
+  --low: #55596A;
+  --minimal: #8A8FA0;
 
-  --accent: #F2B705;
-  --accent-ink: #1A1400;
+  --accent: #2F6BFF;
+  --accent-ink: #FFFFFF;
+
+  --bd: 2.5px solid #0C0D12;
+  --hs: 6px 6px 0 #0C0D12;
+  --hs-sm: 4px 4px 0 #0C0D12;
+  --hs-lg: 9px 9px 0 #0C0D12;
 
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Inter", sans-serif;
@@ -75,7 +82,7 @@ body {
 .btn:disabled { opacity: 0.5; cursor: default; }
 
 .btn-primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-.btn-primary:hover { background: #FFCB33; }
+.btn-primary:hover { background: #2F6BFF; }
 
 .btn-ghost { background: transparent; color: var(--text-muted); }
 .btn-ghost:hover { color: var(--text); border-color: var(--text-faint); }
@@ -83,7 +90,7 @@ body {
 .btn-small { padding: 6px 12px; font-size: 12px; }
 
 .btn-danger { background: var(--critical); color: white; border-color: var(--critical); }
-.btn-danger:hover { background: #FF6270; }
+.btn-danger:hover { background: #FF5C4D; }
 
 .btn-outline { background: transparent; color: var(--text); border-color: var(--text-faint); }
 .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
@@ -173,7 +180,7 @@ body {
 .badge-sev.s3 { color: var(--medium); border-color: var(--medium); }
 .badge-sev.s2, .badge-sev.s1 { color: var(--text-muted); }
 .badge-engine { color: var(--accent); border-color: var(--accent); }
-.badge-status { color: #5EEAD4; border-color: #5EEAD4; }
+.badge-status { color: #2F6BFF; border-color: #2F6BFF; }
 
 .finding-reasoning { font-size: 13px; color: var(--text-muted); margin: 6px 0 12px; }
 
@@ -257,7 +264,7 @@ body {
 }
 .dropzone:hover { border-color: var(--accent); background: var(--panel-raised); }
 .dropzone.drag-over { border-color: var(--accent); background: rgba(242, 183, 5, 0.08); }
-.dropzone.is-done { border-color: #5EEAD4; border-style: solid; }
+.dropzone.is-done { border-color: #2F6BFF; border-style: solid; }
 .dropzone.is-error { border-color: var(--critical); border-style: solid; }
 
 .dropzone-icon { font-size: 28px; margin-bottom: 8px; }
@@ -309,4 +316,122 @@ body {
   .topbar, .stats-strip, .queue { padding-left: 20px; padding-right: 20px; }
   .topbar { flex-direction: column; align-items: flex-start; gap: 14px; }
   .drawer { width: 100%; right: -100%; }
+}
+
+
+/* ============================================================
+   NEO-BRUTALISM — hard edges, offset shadows, product-first grid
+   ============================================================ */
+body{background-color:var(--bg);
+  background-image:radial-gradient(700px 400px at 100% 0%, rgba(47,107,255,.10), transparent 60%),
+                   radial-gradient(600px 340px at 0% 100%, rgba(255,92,77,.08), transparent 60%)}
+
+/* topbar */
+.topbar{background:var(--bg);border-bottom:var(--bd);position:sticky;top:0;z-index:50}
+.brand-mark{border:var(--bd);border-radius:12px;background:var(--accent);color:#fff;box-shadow:var(--hs-sm);
+  display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px}
+.brand h1{font-family:var(--font-display);letter-spacing:-.03em}
+
+/* buttons — press into the page */
+.btn{border:var(--bd);border-radius:11px;background:var(--panel);color:var(--text);font-weight:700;
+  box-shadow:var(--hs-sm);transition:transform .12s,box-shadow .12s}
+.btn:hover{transform:translate(-2px,-2px);box-shadow:var(--hs)}
+.btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--border)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-danger{background:var(--critical);color:#fff}
+.btn-outline{background:var(--panel)}
+.btn-ghost{background:var(--panel-raised)}
+
+/* wizard */
+.wizard-card{border:var(--bd);border-radius:20px;background:var(--panel);box-shadow:var(--hs-lg)}
+.wizard-card h2{font-family:var(--font-display);letter-spacing:-.03em}
+.dropzone{border:2.5px dashed var(--border);border-radius:16px;background:var(--panel-raised);
+  transition:transform .15s,box-shadow .15s,background .15s}
+.dropzone:hover{transform:translate(-3px,-3px);box-shadow:var(--hs);background:var(--panel)}
+.dropzone.drag-over{background:rgba(47,107,255,.12);border-style:solid;box-shadow:var(--hs)}
+.dropzone.is-done{border-style:solid;background:rgba(47,107,255,.1);box-shadow:var(--hs-sm)}
+.dropzone.is-error{border-style:solid;background:rgba(255,92,77,.12)}
+.dropzone-icon{font-size:34px}
+
+/* stats — product-first metric blocks, each its own colour weight */
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+@media(max-width:900px){.stats-strip{grid-template-columns:repeat(2,1fr)}}
+.stat-pill{border:var(--bd);border-radius:16px;background:var(--panel);padding:20px;box-shadow:var(--hs);
+  transition:transform .15s,box-shadow .15s;cursor:pointer}
+.stat-pill:hover{transform:translate(-3px,-3px);box-shadow:var(--hs-lg)}
+.stat-pill[data-cat="critical"]{background:var(--critical);color:#fff}
+.stat-pill[data-cat="critical"] .stat-count,.stat-pill[data-cat="critical"] .stat-label{color:#fff}
+.stat-pill[data-cat="open"]{background:var(--accent);color:#fff}
+.stat-pill[data-cat="open"] .stat-count,.stat-pill[data-cat="open"] .stat-label{color:#fff}
+.stat-count{font-family:var(--font-display);font-size:38px;font-weight:700;letter-spacing:-.04em;line-height:1}
+.stat-label{font-family:var(--font-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+
+/* CONSOLE TABLE — one dense ledger, rows not cards */
+.queue{display:block;border:var(--bd);border-radius:14px;overflow:hidden;box-shadow:var(--hs);background:var(--panel)}
+.finding-card{display:grid;grid-template-columns:12px minmax(0,1fr);align-items:stretch;
+  border:0;border-bottom:2px solid var(--border);border-radius:0;box-shadow:none;margin:0;overflow:hidden;
+  transition:background .14s}
+.finding-card:last-child{border-bottom:0}
+.finding-card:nth-child(even){background:var(--panel-raised)}
+.finding-card:hover{transform:none;box-shadow:none;background:rgba(47,107,255,.09)}
+.finding-card.is-resolved{opacity:.5}
+.severity-rail{width:12px;height:auto;border:0;border-right:2px solid var(--border)}
+
+/* the row itself: [ what + who + why ] [ tags ] [ actions ] */
+.finding-body{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:3px 20px;
+  padding:14px 18px;align-items:center}
+.finding-top{grid-column:1;grid-row:1;display:flex;gap:10px;align-items:baseline}
+.finding-sub{grid-column:1;grid-row:2;font-family:var(--font-mono);font-size:12px;color:var(--text-muted);margin:0}
+.finding-reasoning{grid-column:1;grid-row:3;font-size:12.5px;color:var(--text-muted);margin:4px 0 0;max-width:70ch}
+.badge-row{grid-column:2;grid-row:1/4;align-self:center;flex-wrap:nowrap}
+.action-row{grid-column:3;grid-row:1/4;align-self:center;margin:0;white-space:nowrap}
+.finding-title{font-family:var(--font-display);font-size:15.5px;letter-spacing:-.02em;margin:0}
+.finding-meta{font-family:var(--font-mono);font-size:11px;color:var(--text-faint)}
+@media(max-width:1000px){
+  .finding-body{grid-template-columns:minmax(0,1fr)}
+  .badge-row,.action-row{grid-column:1;grid-row:auto;align-self:start;margin-top:8px;flex-wrap:wrap}
+}
+
+/* metrics become a compact status bar, not big slabs */
+.stats-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:var(--bd);border-radius:14px;
+  overflow:hidden;box-shadow:var(--hs);background:var(--panel)}
+@media(max-width:900px){.stats-strip{grid-template-columns:repeat(2,1fr)}}
+.stat-pill{border:0;border-right:2px solid var(--border);border-radius:0;box-shadow:none;padding:16px 18px;
+  display:flex;align-items:baseline;gap:10px}
+.stat-pill:last-child{border-right:0}
+.stat-pill:hover{transform:none;box-shadow:none;background:rgba(47,107,255,.08)}
+.stat-count{font-size:30px}
+.stat-label{font-size:10px}
+.badge{border:2px solid var(--border);border-radius:999px;font-weight:700;font-family:var(--font-mono);font-size:10px}
+
+/* drawer */
+.drawer{border-left:var(--bd);background:var(--panel)}
+.drawer-header{border-bottom:var(--bd)}
+.drawer-header h2{font-family:var(--font-display)}
+.log-entry{border:var(--bd);border-radius:12px;background:var(--panel-raised);box-shadow:var(--hs-sm)}
+
+/* empty + footer */
+.empty-state{border:2.5px dashed var(--border);border-radius:16px;background:var(--panel-raised)}
+.footer{border-top:var(--bd);background:var(--bg)}
+
+@media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
+
+
+/* ============================================================
+   FULL-BLEED CONSOLE — edge-to-edge ledger, command bar on top.
+   No centred column: this is a terminal, not a page.
+   ============================================================ */
+@media (min-width: 1000px){
+  .topbar{padding-inline:26px;max-width:none}
+  .stats-strip{max-width:none;margin:22px 26px 0;border-radius:10px}
+  .queue{max-width:none;margin:18px 26px 26px;border-radius:10px}
+  .wizard{max-width:none;padding-inline:26px}
+  .footer{padding-inline:26px}
+
+  /* ledger gains a sticky column header so it reads as a real table */
+  .queue::before{
+    content:"SEVERITY / FINDING            SYSTEM & USER                                   TAGS            ACTIONS";
+    display:block;font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;
+    padding:11px 18px 11px 30px;background:var(--border);color:#fff;white-space:pre}
+  .finding-card{grid-template-columns:12px minmax(0,1fr)}
 }
