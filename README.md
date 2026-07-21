@@ -1,121 +1,82 @@
-# ⛊ AccessAudit — Orphaned Access & Offboarding Console
+<!-- ebinraj2007-cmd/ebinraj2007-cmd · Profile README -->
+<!-- All animation is self-hosted in /assets — nothing depends on an outside service. -->
 
-AccessAudit answers one question companies consistently get wrong: **when someone leaves, does their access actually get revoked?**
+<img width="100%" src="assets/banner.svg" alt="Ebin Raj — AI & Automation Builder, Sharjah UAE" />
 
-Run a check, and it cross-references your HR roster against system access records to surface exactly what manual audits miss:
+<img width="100%" src="assets/marquee.svg" alt="I build AI tools · I ship them too · Not just demos" />
 
-- **Orphaned access** — an employee left, but their login to Payroll, AWS, the Admin Panel, etc. is still active
-- **Excessive privilege** — someone holds admin rights to a sensitive system well outside their role's norm
-- **Dormant access** — valid, active employee, but access to a system that hasn't been touched in 90+ days
+<div align="center">
 
-Every finding is actionable on the spot: **Revoke Access**, **Reset Password**, or **Dismiss** — each one logged to a real audit trail.
+<a href="https://ebinraj2007-cmd.github.io"><img src="https://img.shields.io/badge/Portfolio-0e0e0e?style=for-the-badge&logo=vercel&logoColor=white" alt="Portfolio"/></a>
+<a href="https://linkedin.com/in/ebin-raj-3b3243366"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/></a>
+<a href="mailto:ebinraj2007@gmail.com"><img src="https://img.shields.io/badge/Email-ea4335?style=for-the-badge&logo=gmail&logoColor=white" alt="Email"/></a>
 
-## Why this exists
+</div>
 
-Offboarding checklists get followed for the obvious stuff (laptop, badge) and quietly skipped for the dozen SaaS tools and internal systems someone had access to. That gap is one of the most common, most expensive, and most preventable security failures in real companies — and almost nobody has a system that just tells them where the gaps are.
+> *I build things that actually run, not just demos.*
 
-## How it works — hybrid engine, same philosophy as InboxPilot
+I'm studying Information Systems Management, and I learn by building. Most of what I know came
+from shipping the projects below, breaking them, and fixing them. I made `SENTRY` at the
+Dubai Customs × University of Dubai hackathon, I'm Cisco-certified in **AI**, **Cybersecurity**
+and **IT**, and right now I'm building `Barjeel` — a QR scam scanner that runs entirely offline
+on your phone.
 
-1. **Rule engine (always on)** — deterministic comparison of HR status vs. access records. This is what actually finds the issues; it's a matching problem, not a guessing problem, so it doesn't need an LLM to be accurate.
-2. **LLM engine (optional)** — set `ANTHROPIC_API_KEY` and each finding's explanation gets sharpened by Claude into a clearer, more specific sentence. It only ever rewrites the *explanation* — the underlying severity and decision always come from the deterministic rule engine, so a security finding never depends on an API call succeeding.
+**I'm looking for an AI / automation internship** — my inbox is always open.
 
-## Quick start — genuinely just download and run
+### `what I use`
 
-```bash
-git clone https://github.com/ebinraj2007-cmd/accessaudit.git
-cd accessaudit
-./start.sh      # Windows: double-click start.bat
-```
+<div align="center">
 
-That's it. First run installs dependencies automatically (a few seconds), then opens `http://127.0.0.1:8010` in your browser straight into the setup wizard.
+![Python](https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=flat-square&logo=openjdk&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=flat-square&logo=linux&logoColor=black)
+![Git](https://img.shields.io/badge/Git-F05032?style=flat-square&logo=git&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=flat-square&logo=docker&logoColor=white)
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=flat-square&logo=githubactions&logoColor=white)
+![Prometheus](https://img.shields.io/badge/Prometheus-E6522C?style=flat-square&logo=prometheus&logoColor=white)
+![Grafana](https://img.shields.io/badge/Grafana-F46800?style=flat-square&logo=grafana&logoColor=white)
 
-**In the wizard:**
-- Drag in your HR export and your access/subscription log (CSV, Excel, or JSON — whatever your systems export)
-- AccessAudit auto-detects the columns, however your export names them ("Work Email", "Employee Email", "User Email" all map correctly on their own)
-- The moment both files are in, it runs the check automatically and shows you the findings
-- No real data handy? Click **"Try it now with sample company data"** to see it working immediately
+![Claude API](https://img.shields.io/badge/Claude_API-D97757?style=flat-square&logo=anthropic&logoColor=white)
+![Ollama](https://img.shields.io/badge/Ollama-000000?style=flat-square&logo=ollama&logoColor=white)
+![Antigravity](https://img.shields.io/badge/Antigravity-4285F4?style=flat-square&logo=google&logoColor=white)
+![Claude Code](https://img.shields.io/badge/Claude_Code-D97757?style=flat-square&logo=anthropic&logoColor=white)
+![Cursor](https://img.shields.io/badge/Cursor-000000?style=flat-square&logo=cursor&logoColor=white)
+![SEO](https://img.shields.io/badge/SEO-4285F4?style=flat-square&logo=googlesearchconsole&logoColor=white)
 
-Every finding is one click away from being fixed — **Revoke Access**, **Reset Password**, or **Dismiss** — and every action is written to a real, timestamped audit trail you can review any time.
+</div>
 
-### If you'd rather not use the launcher
+### `things I've built`
 
-```bash
-pip install -r requirements.txt
-uvicorn webapp.main:app --reload
-```
+| | |
+|---|---|
+| **🏗️ [Barjeel](https://github.com/ebinraj2007-cmd/barjeel)** · [live app](https://ebinraj2007-cmd.github.io/barjeel/)<br/><sub>Scammers here stick fake QR codes over the real ones on parking meters. Barjeel tells you where a code *actually* leads before anything opens — lookalike Cyrillic domains, punycode, typosquats, subdomain tricks. Also spots physical sticker overlays — `3/3` caught with `0` false alarms on a labelled photo set. `100 tests`, zero dependencies. Never talks to a server, so it works underground with no signal.</sub> | **🛡️ [SENTRY](https://github.com/ebinraj2007-cmd/sentry)** · [live demo](https://ebinraj2007-cmd.github.io/sentry/)<br/><sub>Scores cargo risk `0–100` from scanner images, customs data and watchlists. What took 20 minutes takes seconds. Built at the Dubai Customs × University of Dubai hackathon.</sub> |
+| **💬 [NoorDesk](https://github.com/ebinraj2007-cmd/noordesk)**<br/><sub>An AI front desk that reads a message in any of `5 languages`, works out the tone and urgency, and writes back in the customer's own language. Runs offline. Live updates over WebSocket with polling kept as a fallback — both paths in the codebase on purpose. `65 tests`, Dockerised.</sub> | **🔒 [AccessAudit](https://github.com/ebinraj2007-cmd/accessaudit)**<br/><sub>Finds the accounts people still have after they've left, and lets you shut them off in one click — with a full audit trail that survives a container being replaced. Dockerised, non-root.</sub> |
+| **📈 [NMS](https://github.com/ebinraj2007-cmd/nms-ai-monitoring)**<br/><sub>Network monitoring that heals itself, and predicts a disk failure before the drive actually dies.</sub> | |
 
-Or use the CLI directly:
-```bash
-python -m accessaudit.cli check
-```
+<div align="center">
 
-## What "Revoke" and "Reset Password" actually do
+<sub>Every one of these runs, has tests, and has been through a security pass. 210 tests across five repositories.</sub>
 
-Out of the box, AccessAudit ships with a `LocalConnector` that performs the action for real within its own system of record — it updates the finding's status and writes a timestamped entry to the audit trail. It's honest about what it does: this demo has no credentials to your real Okta/Azure AD/Google Workspace, so it doesn't pretend to call them.
+<sub>Cisco — Modern AI · Cybersecurity · IT Essentials  |  IBM SkillsBuild — Cybersecurity Fundamentals  |  Dubai Future Foundation — One Million Prompters</sub>
 
-For production use, connect a real identity provider: `accessaudit/remediation.py` includes a documented `OktaConnector` shape — set `OKTA_DOMAIN` and `OKTA_API_TOKEN`, swap the connector in `webapp/main.py` and `cli.py`, and the exact same UI/CLI now performs real revocations. Nothing else in the app changes.
+**[Portfolio](https://ebinraj2007-cmd.github.io)** · **[LinkedIn](https://linkedin.com/in/ebin-raj-3b3243366)** · `ebinraj2007@gmail.com`
 
-## Enabling the LLM engine (optional)
+</div>
 
-```bash
-export ANTHROPIC_API_KEY=your-key-here
-python -m accessaudit.cli check
-```
+<img width="100%" src="assets/marquee.svg" alt="" />
 
-No key set → the rule engine's reasoning is used as-is. No code changes needed either way.
-
-## Architecture
-
-```
-sample_data/employees.json  ─┐
-                              ├──▶  auditor.py  ──▶  storage.py (SQLite)
-sample_data/access_records.json ┘   (rules or Claude)      │
-                                                     ┌───────┴────────┐
-                                                CLI ◀┤                ├▶ FastAPI dashboard
-                                                     └────────────────┘
-                                                             │
-                                                    remediation.py
-                                                (LocalConnector / OktaConnector)
-```
-
-- `accessaudit/auditor.py` — the hybrid detection engine
-- `accessaudit/importer.py` — turns arbitrary CSV/Excel/JSON company exports into clean records via fuzzy column auto-detection
-- `accessaudit/remediation.py` — pluggable action connector (revoke / reset)
-- `accessaudit/storage.py` — SQLite persistence: findings + a real action audit trail
-- `accessaudit/pipeline.py` — orchestrates ingest → audit → store
-- `accessaudit/cli.py` — interactive command-line interface
-- `webapp/` — FastAPI backend + vanilla JS/CSS dashboard: setup wizard, live Revoke/Reset/Dismiss actions, audit trail drawer
-- `start.sh` / `start.bat` — one-command launcher (creates a venv, installs dependencies, opens the browser)
-
-## Using your own company data
-
-**Easiest path:** just drop your exports into the setup wizard (see Quick Start above) — no formatting required. It auto-detects columns from almost any reasonable export, handles CSV/Excel/JSON, and normalizes inconsistent date formats (`04/15/2026`, `15-Apr-2026`, `2026-04-15` all work).
-
-Minimum columns it needs to find (under whatever name your export uses):
-- **Employee roster:** name, email, status (active/terminated)
-- **Access log:** user email, system name
-
-Everything else (department, role, access level, dates) improves accuracy but isn't required.
-
-**CLI path**, if you'd rather work from files directly — same auto-detection applies:
-```bash
-python -m accessaudit.cli check --employees path/to/your_export.csv --access path/to/access_log.xlsx
-```
-
-The CLI is interactive by default — for each finding it asks `[r]evoke  [p]assword reset  [s]kip`. Use `--no-prompt` for a read-only listing, or `--auto-remediate` to automatically revoke access for every orphaned-access finding.
-
-## Running tests
-
-```bash
-pytest tests/ -v
-```
-
-36 tests, covering the detection rules, severity scoring, the LLM fallback path (mocked, no real API key needed), the CSV/Excel/JSON importer with realistic messy real-world exports, and the full upload-wizard + remediation/audit-trail flow via FastAPI's test client.
-
-## Tech stack
-
-Python · FastAPI · SQLite · Anthropic Claude API (optional) · vanilla JS/CSS · pytest · GitHub Actions
-
-## License
-
-MIT
+<!--
+  SNAKE ANIMATION — currently off so nothing shows as a broken image.
+  To switch it on:
+    1. Actions tab -> "Generate snake animation" -> Run workflow (one time)
+    2. Wait ~30s for it to finish
+    3. Delete this comment wrapper so the <picture> block below goes live
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/ebinraj2007-cmd/ebinraj2007-cmd/output/github-snake-dark.svg" />
+  <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/ebinraj2007-cmd/ebinraj2007-cmd/output/github-snake.svg" />
+  <img alt="snake eating my contribution graph" src="https://raw.githubusercontent.com/ebinraj2007-cmd/ebinraj2007-cmd/output/github-snake.svg" />
+</picture>
+-->
