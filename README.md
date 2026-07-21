@@ -80,3 +80,13 @@ on your phone.
   <img alt="snake eating my contribution graph" src="https://raw.githubusercontent.com/ebinraj2007-cmd/ebinraj2007-cmd/output/github-snake.svg" />
 </picture>
 -->
+
+## Running in Docker
+
+```bash
+docker compose up --build
+# http://127.0.0.1:8010
+```
+
+Multi-stage build, non-root user, healthcheck against `/healthz`, SQLite on a volume
+mounted at `/app/data` — where `storage.py` resolves its path from `__file__`.
